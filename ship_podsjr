@@ -1,0 +1,31 @@
+# INPUT FILE MUST BE CONTAIN THESE COMMENT LINES
+# NUMBER OF RECTANGLES:
+20
+# NUMBER OF ENGINES:
+2
+# RECTANGLES (xext, yext, xoff, yoff, theta, mass):
+10 10    0      0     0     100
+1  15    0     25     0      10
+1  50   12.5   83.3  -0.2527 30
+1  50  -12.5   83.3   0.2527 30
+40  5   55    191.6   0     400
+40  5  -55    191.6   0     400
+30  5   55    201.6   0     300
+30  5  -55    201.6   0     300
+40  5   55    210.6   0     400
+40  5  -55    210.6   0     400
+20  8   55     58.6   0     320
+25  2   55     48.6   0     100
+20  2   55     44.6   0      80
+20  8  -55     58.6   0     320
+25  2  -55     48.6   0     100
+20  2  -55     44.6   0      80
+25  2  -55     40.6   0     100
+25  2   55     40.6   0     100
+# ENGINES (xext, yext, xoff, yoff, theta, mass, thrust):
+30 60  55    126.6   0   100 1000000
+30 60 -55    126.6   0   100 1000000
+# COLOR (R, G, B)
+255 0 255
+# TOP SPEEDS (SPEED, ANGULAR VELOCITY)
+7000 .1
