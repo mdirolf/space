@@ -8,7 +8,7 @@
 #ifndef TIMER_H
 #define TIMER_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 /* Define the Time_T type, making it easier to pass times around between
    functions and data types. */

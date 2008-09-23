@@ -8,7 +8,7 @@
 #include "particlesys.h"
 #include "timer.h"
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 #define FPS 100
 

@@ -6,7 +6,7 @@
  ___________________________________________________________________________*/
 
 #include "draw.h"
-#include <SDL/SDL.h>
+#include <SDL.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>

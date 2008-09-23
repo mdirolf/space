@@ -6,7 +6,7 @@
  ___________________________________________________________________________*/
 
 #include "timer.h"
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 /* The inverse of the target framerate. */
 static double dInverseRate;

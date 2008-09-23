@@ -8,7 +8,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 /* Define the Color_T type, making it easier to pass colors around between
    functions and data types. */
