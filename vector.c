@@ -144,7 +144,7 @@ void Vector_scale(Vector_T oVector, double dScale) {
 /* Normalizes oVector.  It is a checked runtime error for oVector to be
    NULL. */
 void Vector_normalize(Vector_T oVector) {
-   assert(oVector != NULL); 
+   assert(oVector != NULL);
    Vector_scale(oVector, 1 / Vector_length(oVector));
 }
 
@@ -152,7 +152,7 @@ void Vector_normalize(Vector_T oVector) {
    to be NULL. */
 void Vector_rotate(Vector_T oVector, double dTheta) {
    double dCos, dSin, xNew, yNew;
-   
+
    assert(oVector != NULL);
    dCos = cos(dTheta);
    dSin = sin(dTheta);

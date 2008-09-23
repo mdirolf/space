@@ -41,13 +41,13 @@ void Draw_init() {
       fprintf(stderr, "Unable to set 640x480 video: %s\n", SDL_GetError());
       exit(1);
    }
-   
+
    /* Set the initial scaling and shifting factors. */
    dScaleX = 1.0;
    dScaleY = 1.0;
    dShiftX = 0.0;
    dShiftY = 0.0;
-   
+
    /* Set the background color to black. */
    iClearColor = Draw_getColor(0, 0, 0);
 }
@@ -83,7 +83,7 @@ Uint8* Draw_getPixel(int x, int y) {
 void Draw_blendPixel(int x, int y, Color_T color, Uint8 alpha) {
 	Uint8 *p;
 	Uint32 R, G, B;
-	
+
 	assert(oScreen != NULL);
 
 	if ((p = Draw_getPixel(x, y))) {
@@ -161,7 +161,7 @@ void Draw_drawLineAlpha(int x1, int y1, int x2, int y2, Color_T color, Uint8 alp
 		b2 = &x2;
 		db = (double)xd / yd;
 	}
-	
+
 	/* left or right? */
 	da = (*a <= *a2) ? 1 : -1;
 	/* up or down? */
@@ -194,7 +194,7 @@ void Draw_drawScaledLine(double dX1, double dY1, double dX2, double dY2,
                    Color_T color) {
    double x1, x2, y1, y2;
    assert(oScreen != NULL);
-   
+
    x1 = (dX1 - dShiftX) * dScaleX + XRES / 2;
    y1 = (-dY1 + dShiftY) * dScaleY + YRES / 2;
    x2 = (dX2 - dShiftX) * dScaleX + XRES / 2;
@@ -206,7 +206,7 @@ void Draw_drawScaledLine(double dX1, double dY1, double dX2, double dY2,
    for the drawing module to be uninitialized. */
 void Draw_lockScreen() {
    assert(oScreen != NULL);
-   
+
    if (SDL_MUSTLOCK(oScreen))
       if (SDL_LockSurface(oScreen) < 0)
          return;

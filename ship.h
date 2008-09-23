@@ -39,7 +39,7 @@ void Ship_setMassMoment(Ship_T oShip);
    checked runtime error for oShip to be NULL. */
 void Ship_applyForce(Ship_T oShip, double fX, double fY, double dX,
                        double dY);
-                       
+
 /* Applies the ship's current velocities to change its position and
    rotation.  It is a checked runtime error for oShip to be NULL. */
 void Ship_applyVelocities(Ship_T oShip);

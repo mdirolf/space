@@ -48,5 +48,5 @@ ship.o: ship.h
 
 timer.o: timer.h
 
-vector.o: vector.h 
+vector.o: vector.h
 

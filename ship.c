@@ -27,7 +27,7 @@ struct Ship {
        Engine_T* poEngines;
        int iNumRects; /* Number of Rects in the ship. */
        int iNumEngines; /* Number of engines in the ship. */
-       
+
        /* Velocites. */
        double dXAc;
        double dXVel;
@@ -35,26 +35,26 @@ struct Ship {
        double dYVel;
        double dAlpha;
        double dOmega;
-       
+
        double dMaxOmega;
        double dMaxSpeed;
-       
+
        /* Foward Direction */
        Vector_T oFoward;
-       
+
        /* Mass and moment of inertia. */
        double dMass;
        double dMoment;
-       
+
        /* Color (could be changed to an array of individual colors). */
        Color_T iColor;
-       
+
        /* Time of last update. */
        Time_T iLastUpdate;
-       
+
        /* Last update t units. */
        double dLastTLength;
-       
+
        /* Needed for the PID controllers for following... can't think of
           anywhere better to put these. */
        double lastErrorRot;
@@ -72,36 +72,36 @@ Ship_T Ship_new(char* sFilename) {
    int r, g, b; /* The colors. */
    char dummyString[MAX_LINE_LENGTH]; /* Used to skip lines. */
    double xext, yext, xoffs, yoffs, theta, mass, thrust;
-   
+
    /* Open the stream. */
    inputStream = fopen(sFilename, "r");
-   
+
    /* Skip lines one and two, then read the number of rects. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
    fscanf(inputStream, "%d\n", &num);
-   
+
    /* Skip line four and read the number of engines. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
    fscanf(inputStream, "%d\n", &numEngines);
-   
+
    /* Allocate space for the new ship. */
    oNewShip = (Ship_T)malloc(sizeof(struct Ship));
    assert(oNewShip != NULL);
-   
+
    /* Allocate space for the array of rectangles, and store how many. */
    oNewShip->poRectArray = (Rect_T*)malloc(num * sizeof(Rect_T));
    assert(oNewShip->poRectArray != NULL);
    oNewShip->iNumRects = num;
-   
+
    /* Allocate space for the array of engines, and store how many. */
    oNewShip->poEngines = (Engine_T*)malloc(numEngines * sizeof(Engine_T));
    assert(oNewShip->poEngines != NULL);
    oNewShip->iNumEngines = numEngines;
-   
+
    /* Skip line six. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
-   
+
    /* Read in the rectangles that aren't engines. */
    for(i = 0; i < (num - numEngines); i++) {
       fscanf(inputStream, "%lf %lf %lf %lf %lf %lf\n", &xext, &yext,
@@ -110,10 +110,10 @@ Ship_T Ship_new(char* sFilename) {
       Rect_translateRect(oNewShip->poRectArray[i], xoffs, yoffs);
       Rect_rotateRect(oNewShip->poRectArray[i], theta);
    }
-   
+
    /* Skip the precurser to the engines list. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
-   
+
 
    /* Read in the engines. */
    for(i = 0; i < numEngines; i++) {
@@ -123,30 +123,30 @@ Ship_T Ship_new(char* sFilename) {
       Rect_translateRect(oNewShip->poRectArray[i + num - numEngines],
                          xoffs, yoffs);
       Rect_rotateRect(oNewShip->poRectArray[i + num - numEngines], theta);
-      
+
       oNewShip->poEngines[i] = Engine_new(oNewShip->poRectArray[i + num - numEngines], thrust);
    }
-   
+
    /* Skip the precurser to the color. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
-   
+
    /* Get the color. */
    fscanf(inputStream, "%d %d %d\n", &r, &g, &b);
    oNewShip->iColor = Draw_getColor((char)r, (char)g, (char)b);
-   
+
    /* Skip the precurser to the max speeds. */
    fgets(dummyString, MAX_LINE_LENGTH, inputStream);
 
    /* Get the max speeds. */
    fscanf(inputStream, "%lf %lf\n", &oNewShip->dMaxSpeed, &oNewShip->dMaxOmega);
-   
+
    /* Close the input stream. */
    fclose(inputStream);
-   
+
    /* Center the ship and get its moment. */
    Ship_recenter(oNewShip);
    Ship_setMassMoment(oNewShip);
-   
+
    /* Initialize direction and motion vectors. */
    oNewShip->oFoward = Vector_new(0, 1);
    oNewShip->dXAc = oNewShip->dYAc = oNewShip->dAlpha = 0;
@@ -155,13 +155,13 @@ Ship_T Ship_new(char* sFilename) {
    /* Initialize timing values. */
    oNewShip->iLastUpdate = Timer_getTime();
    oNewShip->dLastTLength = 0;
-   
+
    /* Initialize error values for PID control. */
    oNewShip->lastErrorRot = 0;
    oNewShip->lastLastErrorRot = 0;
    oNewShip->lastErrorPos = 0;
    oNewShip->lastLastErrorPos = 0;
-   
+
    return oNewShip;
 }
 
@@ -169,17 +169,17 @@ Ship_T Ship_new(char* sFilename) {
 void Ship_free(Ship_T oShip) {
    int i;
    if (oShip == NULL) return;
-   
+
    for(i = 0; i < oShip->iNumRects; i++) {
       Rect_free(oShip->poRectArray[i]);
    }
-   
+
    for(i = 0; i < oShip->iNumEngines; i++) {
       Engine_free(oShip->poEngines[i]);
    }
-   
+
    Vector_free(oShip->oFoward);
-   
+
    free(oShip->poEngines);
    free(oShip->poRectArray);
    free(oShip);
@@ -190,7 +190,7 @@ void Ship_free(Ship_T oShip) {
 void Ship_translate(Ship_T oShip, double dX, double dY) {
    int i;
    assert(oShip != NULL);
-   
+
    for(i = 0; i < oShip->iNumRects; i++) {
       Rect_translateObj(oShip->poRectArray[i], dX, dY);
    }
@@ -215,9 +215,9 @@ void Ship_recenter(Ship_T oShip) {
    double totMass = 0, xMass = 0, yMass = 0, deltX = 0, deltY = 0;
    int i;
    Vector_T currVector;
-   
+
    assert(oShip != NULL);
-   
+
    for(i = 0; i < oShip->iNumRects; i++) {
       totMass += Rect_getMass(oShip->poRectArray[i]);
       xMass += Rect_getMass(oShip->poRectArray[i]) *
@@ -227,7 +227,7 @@ void Ship_recenter(Ship_T oShip) {
    }
    deltX = xMass / totMass;
    deltY = yMass / totMass;
-   
+
    for(i = 0; i < oShip->iNumRects; i++) {
       currVector = Rect_getOffset(oShip->poRectArray[i]);
       Vector_setX(currVector, Vector_getX(currVector) - deltX);
@@ -257,7 +257,7 @@ void Ship_applyForce(Ship_T oShip, double fX, double fY, double dX,
    assert(oShip != NULL);
    oShip->dXAc += fX / oShip->dMass;
    oShip->dYAc += fY / oShip->dMass;
-   
+
    oShip->dAlpha += (dX * fY - dY * fX) / oShip->dMoment;
 }
 
@@ -267,9 +267,9 @@ void Ship_applyForce(Ship_T oShip, double fX, double fY, double dX,
 void Ship_applyVelocities(Ship_T oShip) {
    double deltX, deltY, deltTheta, t, speedsqr;
    int i;
-   
+
    assert(oShip != NULL);
-   
+
    oShip->dLastTLength = t = Timer_getMultiplier(oShip->iLastUpdate);
    oShip->iLastUpdate = Timer_getTime();
    oShip->dXVel += oShip->dXAc * t;
@@ -281,7 +281,7 @@ void Ship_applyVelocities(Ship_T oShip) {
       oShip->dXVel *= oShip->dMaxSpeed / sqrt(speedsqr);
       oShip->dYVel *= oShip->dMaxSpeed / sqrt(speedsqr);
    }
-   
+
    if (oShip->dOmega > oShip->dMaxOmega)
       oShip->dOmega = oShip->dMaxOmega;
    if (oShip->dOmega < -oShip->dMaxOmega)
@@ -290,9 +290,9 @@ void Ship_applyVelocities(Ship_T oShip) {
    deltX = oShip->dXVel * t;
    deltY = oShip->dYVel * t;
    deltTheta = oShip->dOmega * t;
-   
+
    oShip->dXAc = oShip->dYAc = oShip->dAlpha = 0;
-   
+
    Vector_rotate(oShip->oFoward, deltTheta);
    for(i = 0; i < oShip->iNumRects; i++) {
       Rect_translateObj(oShip->poRectArray[i], deltX, deltY);
@@ -318,7 +318,7 @@ void Ship_stopSlow(Ship_T oShip) {
 void Ship_fullThrottle(Ship_T oShip) {
    int i;
    assert(oShip != NULL);
-   
+
    oShip->dOmega -= oShip->dOmega*oShip->dLastTLength*SLOW_FACTOR;
    /*oShip->dOmega = 0;*/
    for(i = 0; i < oShip->iNumEngines; i++) {
@@ -351,7 +351,7 @@ void Ship_fullLeftThrottle(Ship_T oShip) {
 void Ship_draw(Ship_T oShip) {
    int i;
    assert(oShip != NULL);
-   
+
    for(i = 0; i < oShip->iNumRects; i++) {
       Rect_draw(oShip->poRectArray[i], oShip->iColor);
    }
@@ -431,7 +431,7 @@ void Ship_followRotation(Ship_T oShip, Ship_T oShip1) {
 
    double xDir = Vector_getX(oShip->oFoward);
    double yDir = Vector_getY(oShip->oFoward);
-   
+
    double xDiff = Vector_getX(Ship_getCenter(oShip1)) -
                   Vector_getX(Ship_getCenter(oShip));
    double yDiff = Vector_getY(Ship_getCenter(oShip1)) -
@@ -444,19 +444,19 @@ void Ship_followRotation(Ship_T oShip, Ship_T oShip1) {
    P = (error - lastE);
    I = KI * time * error;
    D = KD / time * (error - 2 * lastE + lastLastE);
-   
+
    C = KP * (P + I + D);
-   
+
    if(C < -50) {
       Ship_fullLeftThrottle(oShip);
    }
    else if(C > 50) {
       Ship_fullRightThrottle(oShip);
    }
-   
+
    oShip->lastLastErrorRot = lastE;
    oShip->lastErrorRot = error;
-   
+
 }
 
 /* Simple test AI function. */
@@ -478,7 +478,7 @@ void Ship_followPosition(Ship_T oShip, Ship_T oShip1) {
    double yDiff = Vector_getY(Ship_getCenter(oShip1)) -
                   Vector_getY(Ship_getCenter(oShip)) -
                   750 * oShip1->dYVel / Ship_getSpeed(oShip1);
-   
+
    double vx = Ship_getVX(oShip);
    double vy = Ship_getVY(oShip);
 

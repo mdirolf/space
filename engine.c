@@ -75,18 +75,18 @@ void Engine_thrust(Engine_T oEngine, Ship_T oShip, double t) {
    /* Ship's velocity vector. */
    vx = Ship_getVX(oShip);
    vy = Ship_getVY(oShip);
-   
+
    mag = oEngine->dThrust;
-   
+
    /* These determine the random placement of smoke dots. */
    xsmokeX = Vector_getX(Rect_getXAxis(oEngine->oRect)) * Rect_getXExt(oEngine->oRect);
    ysmokeX = Vector_getY(Rect_getXAxis(oEngine->oRect)) * Rect_getXExt(oEngine->oRect);
    xsmokeY = Vector_getX(Rect_getYAxis(oEngine->oRect)) * Rect_getYExt(oEngine->oRect);
    ysmokeY = Vector_getY(Rect_getYAxis(oEngine->oRect)) * Rect_getYExt(oEngine->oRect);
-   
+
    /* Apply the force. */
    Ship_applyForce(oShip, xdir*mag, ydir*mag, xoff, yoff);
-   
+
    /* Add some randomized smoke. */
    for(i = 0; i < PART_PER_LENGTH_SMOKE * Rect_getXExt(oEngine->oRect); i++) {
       double drand1 = (RAND_MAX / 2.0 - rand()) / (double)RAND_MAX;

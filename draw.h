@@ -4,7 +4,7 @@
  * description: draw.h is an abstract object forming the interface to SDL
  * drawing functions.
  ___________________________________________________________________________*/
- 
+
 #ifndef DRAW_H
 #define DRAW_H
 

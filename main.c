@@ -18,7 +18,7 @@ Color_T white;
 void DrawScene(Ship_T oShip, Ship_T oShip2, Ship_T oShip3)
 {
    Draw_lockScreen();
-   
+
    Draw_clearScreen();
    /*  for(x = -50; x < 50; x++)
        for(y = -50; y < 50; y++)
@@ -41,22 +41,22 @@ int main(int argc, char *argv[])
 {
    int done=0;
    Ship_T oShip, oShip2, oShip3;
-   
+
    Draw_init();
    Timer_init(FPS);
-   
+
    black = Draw_getColor(0,0,0);
    white = Draw_getColor((unsigned char)255,
                          (unsigned char)255,
                          (unsigned char)255);
-   
+
    oShip = Ship_new("ship_xwingjr");
    oShip2 = Ship_new("ship_xwing");
    oShip3 = Ship_new("ship_xwing");
-   
+
    Ship_translate(oShip2, 1000, 1000);
    Ship_translate(oShip3, -100, -100);
-   
+
    while(done == 0)
    {
       SDL_Event event;
@@ -74,13 +74,13 @@ int main(int argc, char *argv[])
       Ship_followPosition(oShip3, oShip);
       Ship_followRotation(oShip2, oShip);
       Ship_followPosition(oShip2, oShip);
-      
+
 /*   if(Ship_doIntersect(oShip2, oShip3)) {
      Ship_T temp = oShip;
      oShip = oShip2;
      oShip2 = temp;
      }
-*/   
+*/
       if (keystate[SDLK_DOWN])
          Ship_stopSlow(oShip);
       while ( SDL_PollEvent(&event) )
@@ -92,12 +92,12 @@ int main(int argc, char *argv[])
                oShip = oShip2;
                oShip2 = temp;
             }
-         
+
       }
-      
+
       DrawScene(oShip, oShip2, oShip3);
    }
-   
+
    Ship_free(oShip);
    Ship_free(oShip2);
    return 0;

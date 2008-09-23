@@ -55,28 +55,28 @@ void Rect_draw(Rect_T oRect, Color_T iColor) {
    Vector_T upRight, upLeft, downLeft, downRight;
    Vector_T upperHyp, lowerHyp;
    Vector_T center;
-   
+
    assert(oRect != NULL);
-   
+
    Vector_scale(oRect->axisX, oRect->extentX);
    Vector_scale(oRect->axisY, oRect->extentY);
-   
+
    center = Vector_sum(oRect->objCenter, oRect->offset);
    upperHyp = Vector_sum(oRect->axisX, oRect->axisY);
    lowerHyp = Vector_diff(oRect->axisX, oRect->axisY);
-   
+
    Vector_normalize(oRect->axisX);
    Vector_normalize(oRect->axisY);
-   
+
    upRight = Vector_sum(center, upperHyp);
    upLeft = Vector_diff(center, lowerHyp);
    downLeft = Vector_diff(center, upperHyp);
    downRight = Vector_sum(center, lowerHyp);
-   
+
    Vector_free(center);
    Vector_free(upperHyp);
    Vector_free(lowerHyp);
-   
+
    Vector_drawBetween(upRight, upLeft, iColor);
    Vector_drawBetween(upLeft, downLeft, iColor);
    Vector_drawBetween(downLeft, downRight, iColor);
@@ -134,21 +134,21 @@ void Rect_translateRect(Rect_T oRect, double dX, double dY) {
 int Rect_doIntersect(Rect_T oRect1, Rect_T oRect2) {
    Vector_T T, L;
    double R1, R2, scale;
-   
+
    assert((oRect1 != NULL) && (oRect2 != NULL));
-   
+
    /* T is the distance between centers. */
    T = Vector_diff(oRect2->objCenter, oRect1->objCenter);
    Vector_plus(T, oRect2->offset);
    Vector_minus(T, oRect1->offset);
-   
+
 /* We must scale L by the length of T in order to make sure that the dot
    product of T and L will be determined by T's length, not L's.  Here L
    is the separting axis we are currently testing for. */
    scale = Vector_length(T);
    L = Vector_copy(oRect1->axisX);
    Vector_scale(L, scale);
-   
+
    R1 = oRect1->extentX * abs(Vector_dot(oRect1->axisX, L)) +
         oRect1->extentY * abs(Vector_dot(oRect1->axisY, L));
    R2 = oRect2->extentX * abs(Vector_dot(oRect2->axisX, L)) +
@@ -159,7 +159,7 @@ int Rect_doIntersect(Rect_T oRect1, Rect_T oRect2) {
       return 0;
    }
    Vector_free(L);
-   
+
    L = Vector_copy(oRect1->axisY);
    Vector_scale(L, scale);
    R1 = oRect1->extentX * abs(Vector_dot(oRect1->axisX, L)) +
@@ -172,7 +172,7 @@ int Rect_doIntersect(Rect_T oRect1, Rect_T oRect2) {
       return 0;
    }
    Vector_free(L);
-   
+
    L = Vector_copy(oRect2->axisX);
    Vector_scale(L, scale);
    R1 = oRect1->extentX * abs(Vector_dot(oRect1->axisX, L)) +
@@ -185,7 +185,7 @@ int Rect_doIntersect(Rect_T oRect1, Rect_T oRect2) {
       return 0;
    }
    Vector_free(L);
-   
+
    L = Vector_copy(oRect2->axisY);
    Vector_scale(L, scale);
    R1 = oRect1->extentX * abs(Vector_dot(oRect1->axisX, L)) +
@@ -259,15 +259,15 @@ double Rect_getMoment(Rect_T oRect) {
    double x, y;
 
    assert(oRect != NULL);
-   
+
    x = oRect->extentX;
    y = oRect->extentY;
    I = oRect->mass * (x*x + y*y) / 3.0;
-   
+
    I += oRect->mass * Vector_length(oRect->offset);
-   
+
    return I;
 }
-   
-      
+
+
 

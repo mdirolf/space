@@ -14,10 +14,10 @@
 struct ParticleSys {
        /* Array of points. [iCount][2], where the 2 is x and y */
        double* pdPointArray;
-       
+
        /* Number of points. */
        int iNum;
-       
+
        /* Number of used slots. */
        int iNumUsed;
 
@@ -29,10 +29,10 @@ struct ParticleSys {
 /* Creates a new system of iCount particles, with color iCol. */
 ParticleSys_T ParticleSys_new(int iCount, Color_T iCol) {
    ParticleSys_T oNewSys;
-   
+
    oNewSys = (ParticleSys_T)malloc(sizeof(struct ParticleSys));
    assert(oNewSys != NULL);
-   
+
    oNewSys->iColor = iCol;
    oNewSys->iNum = iCount;
    oNewSys->iNumUsed = 0;
@@ -41,7 +41,7 @@ ParticleSys_T ParticleSys_new(int iCount, Color_T iCol) {
       dimensions needed to represent a point. */
    oNewSys->pdPointArray = (double*)malloc(iCount * 2 * sizeof(double));
    assert(oNewSys->pdPointArray != NULL);
-   
+
    return oNewSys;
 }
 
@@ -58,7 +58,7 @@ void ParticleSys_free(ParticleSys_T oPSys) {
 void ParticleSys_add(ParticleSys_T oPSys, double dX, double dY) {
    int pos;
    assert(oPSys != NULL);
-   
+
    if(oPSys->iNumUsed < oPSys->iNum) {
       oPSys->pdPointArray[2 * oPSys->iNumUsed] = dX;
       oPSys->pdPointArray[2 * oPSys->iNumUsed + 1] = dY;
@@ -75,7 +75,7 @@ void ParticleSys_add(ParticleSys_T oPSys, double dX, double dY) {
 void ParticleSys_decay(ParticleSys_T oPSys) {
    int pos, num;
    assert(oPSys != NULL);
-   
+
    num = oPSys->iNumUsed - 1;
    if (num < 0) return;
    pos = (int)(rand() * num / RAND_MAX );
@@ -96,4 +96,4 @@ void ParticleSys_draw(ParticleSys_T oPSys) {
                            oPSys->pdPointArray[2 * i + 1], oPSys->iColor);
    }
 }
-   
+
