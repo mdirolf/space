@@ -1,0 +1,25 @@
+A space simulator that I worked on a long time ago. Managed to get it to build
+and thought I'd post it for kicks.
+
+BUILDING
+--------
+You'll need SDL. I'm building on a OS X 10.5 and using the macports version
+of SDL. I have libsdl, libsdl_gfx, and libsdl_image installed, but I'm not sure
+if all of these are necessary.
+
+Run:
+> make
+
+RUNNING
+-------
+Hopefully this will build cleanly, but your mileage may vary. If it does you
+should be able to do:
+> ./game
+to run the game.
+
+There isn't much in terms of gameplay. You drive the orange ship around and
+the blue ships follow you. Maybe I'll revisit this thing someday.
+
+FEEDBACK
+--------
+If you have any questions or feedback contact me at (mike at dirolf dot com)
