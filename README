@@ -4,8 +4,8 @@ and thought I'd post it for kicks.
 BUILDING
 --------
 You'll need SDL. I'm building on a OS X 10.5 and using the macports version
-of SDL. I have libsdl, libsdl_gfx, and libsdl_image installed, but I'm not sure
-if all of these are necessary.
+of SDL:
+> sudo port install libsdl
 
 Run:
 > make
